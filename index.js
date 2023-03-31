@@ -4,10 +4,10 @@ const path = require("path");
 // const config = require("config");
 const cors = require("cors");
 
-const authRoutes = require("../routes/auth.js");
-const itemRoutes = require("../routes/item.js");
-const cartRoutes = require("../routes/cart.js");
-const orderRoutes = require("../routes/order.js");
+const authRoutes = require("./routes/auth.js");
+const itemRoutes = require("./routes/item.js");
+const cartRoutes = require("./routes/cart.js");
+const orderRoutes = require("./routes/order.js");
 require("dotenv").config();
 
 const app = express();
