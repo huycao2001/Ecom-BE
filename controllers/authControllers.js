@@ -16,6 +16,7 @@ module.exports.signup = async (req, res) => {
         const { name, gender, bday, email, password } = req.body;
 
         if (!name || !bday || !gender || !email || !password) {
+
             return res.status(400).json({ msg: 'Please enter all fields' });
         }
 
@@ -62,7 +63,7 @@ module.exports.signup = async (req, res) => {
         session.endSession();
 
         console.error(err);
-        return res.status(400).json({ msg: err.message });
+        return res.json({ msg: err.message });
     }
 };
 

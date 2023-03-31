@@ -2,12 +2,41 @@ const Item = require("../models/item.js");
 
 module.exports.get_items = async (req, res) => {
     const session = await Item.startSession();
+    const {
+        category
+    } = req.query
+
   
     try {
       await session.withTransaction(async () => {
-        const items = await Item.find().sort({ date: -1 }).session(session);
+        var queries = []
+        if(category){
+            queries.push({
+                category : category
+            })
+        }
+        
+        var items
+        if(queries.length){
+            items = await Item.find({ $and : queries}).sort({ date: -1 }).session(session);
+        }else{
+            // Get some products from each categories
+            //items = await Item.find().sort({ date: -1 }).session(session);
+            applePhones = await Item.find({category : "Apple"}).limit(4);
+            samsungPhones = await Item.find({category : "Samsung"}).limit(4); 
+            nokiaPhones = await Item.find({category : "Nokia"}).limit(4); 
+            xiaomiPhones = await Item.find({category : "Xiaomi"}).limit(4);
+            oppoPhones = await Item.find({category : "Oppo"}).limit(4);
+            items = [
+                ...applePhones,
+                ...samsungPhones,
+                ...nokiaPhones,
+                ...xiaomiPhones,
+                ...oppoPhones
+            ]
 
-        // const {category} = req.query
+        }
+        
         res.json({
           message: "Success",
           items: items,
