@@ -9,7 +9,7 @@
     ],
     "routes": [
       {
-        "src": "/api/items",
+        "src": "/api",
         "dest": "server.js"
       }
     ]
