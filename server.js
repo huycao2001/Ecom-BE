@@ -22,10 +22,11 @@ app.use(cors());
     });
 }*/
 
-app.use("/api", authRoutes);
-app.use("/api", itemRoutes);
-app.use("/api", cartRoutes);
-app.use("/api", orderRoutes);
+app.use(authRoutes);
+// app.use("/api", itemRoutes);
+app.use(itemRoutes)
+app.use(cartRoutes);
+app.use(orderRoutes);
 
 // connecting to mongoDB and then running server on port 4000
 // const dbURI = config.get("dbURI");
