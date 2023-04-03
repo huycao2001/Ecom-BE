@@ -52,13 +52,48 @@ module.exports.get_items = async (req, res) => {
   };
   
 module.exports.get_item_by_id = (req, res) => {
-    const { item_id } = req.body;
-    Item.find({ ID: `${item_id}` }).then((item) => res.json(item));
+    var ObjectId = require('mongoose').Types.ObjectId; 
+    // const { 
+    //     item_id 
+    // } = req.body;
+
+    const item_id = req.params.id
+    try{
+        Item.findOne({ _id : new ObjectId(item_id)}).then((item) => {
+            if(item){ 
+                res.json({
+                    msg : "Success", 
+                    item : item
+                })
+            }else{
+                res.json({
+                    msg : "No item found"
+                })
+            }
+    
+    
+        });
+    }catch(e){
+        res.json({
+            msg : e.message
+        })
+    }
 };
 
 module.exports.post_item = (req, res) => {
     // res.json(req.body)
-    const {name, price, badges, imgUrl, category, descriptions, storage_options, color_options,promotion_options, status_options } = req.body;
+    const {
+        name, 
+        price, 
+        badges, 
+        imgUrl, 
+        category, 
+        descriptions, 
+        storage_options, 
+        color_options,
+        promotion_options, 
+        status_options 
+    } = req.body;
 
 
     const newItem = new Item({name, price, badges, imgUrl, category, descriptions, storage_options, color_options,promotion_options, status_options});

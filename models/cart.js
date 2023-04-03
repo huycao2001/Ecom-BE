@@ -7,20 +7,32 @@ const CartSchema = new Schema({
     },
     items: [
         {
-            image: String,
+            image: {
+                type : String,
+                required: true
+            },
             productId: {
                 type: String,
+                required : true
             },
-            optionId: {
-                type: String,
-            },
+            // optionId: {
+            //     type: String,
+            // },
             name: String,
-            volume: String,
+            // volume: String,
+            colorOption : {
+                type : String,
+                required : false
+            },
+            storageOption : {
+                type : String,
+                required : false
+            },
             quantity: {
                 type: Number,
                 required: true,
                 min: [1, "Quantity can not be less then 1."],
-                deafult: 1,
+                default: 1,
             },
             price: Number,
         },
