@@ -5,19 +5,54 @@ const OrderSchema = new Schema({
     userId: {
         type: String,
     },
+    // items: [
+    //     {
+    //         productId: {
+    //             type: String,
+    //             ref: "item",
+    //         },
+    //         name: String,
+    //         volume: String,
+    //         optionId: String,
+    //         quantity: {
+    //             type: Number,
+    //             required: true,
+    //             min: [1, "Quantity can not be less then 1."],
+    //         },
+    //         price: Number,
+    //     },
+    // ],
     items: [
         {
+            image: {
+                type : String,
+                required: false
+            },
             productId: {
                 type: String,
-                ref: "item",
+                required : true
             },
-            name: String,
-            volume: String,
-            optionId: String,
+            // optionId: {
+            //     type: String,
+            // },
+            name: {
+                type : String, 
+                required : true
+            },
+            // volume: String,
+            colorOption : {
+                type : String,
+                required : false
+            },
+            storageOption : {
+                type : String,
+                required : false
+            },
             quantity: {
                 type: Number,
                 required: true,
                 min: [1, "Quantity can not be less then 1."],
+                default: 1,
             },
             price: Number,
         },
@@ -40,13 +75,13 @@ const OrderSchema = new Schema({
         type: Number,
         required: true,
     },
-    date_added: {
+    dateAdded: {
         type: Date,
         default: Date.now,
     },
     status: {
         type: String,
-        required: true,
+        required: true
     },
 });
 

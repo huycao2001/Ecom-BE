@@ -16,10 +16,39 @@ module.exports.get_all_orders = async (req, res) => {
         .sort({ date: -1 })
         .then((orders) => res.json(orders));
 };
+
+
+
+// Create order
 module.exports.create_order = async (req, res) => {
-    const newOrder = new Order(req.body);
-    newOrder.save().then((order) => res.json(order));
+    var {userId, items, shippingInfo, bill ,dateAdded, status } = req.body;
+    // return res.json({
+    //     userId, items, shippingInfo, bill ,dateAdded, status
+    // })
+
+    try{
+        const newOrder = new Order(req.body);
+        newOrder.save().then((order) => res.json({
+            msg : "Successful", 
+            data : newOrder
+        }));
+
+
+        // TODO : Delete cart if needed
+    }catch(e){
+        return res.json({
+            msg : e.message
+        })
+    }
+
 };
+
+
+
+
+
+
+
 module.exports.update_order = (req, res) => {
     Order.findByIdAndUpdate(req.params.id, req.body).then(function (item) {
         Order.findById(req.params.id).then(function (item) {
