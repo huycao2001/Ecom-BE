@@ -13,6 +13,7 @@ module.exports.get_cart_items = async (req, res) => {
                 data : cart
             })
         }
+        throw new Error("Cart not found")
     } catch (err) {
         console.log(err);
         return res.json({
