@@ -164,7 +164,7 @@ module.exports.add_cart_item = async (req, res) => {
             cart = await cart.save();
             return res.json({
                 msg : "Successful", 
-                cart : cart
+                data : cart
             });
         } else {
             // no cart exists, create one
@@ -222,7 +222,7 @@ module.exports.update_cart_item = async (req, res) => {
             cart = await cart.save();
             return res.json({
                 msg : "Successful",
-                newCart : cart
+                data : cart
             })
         }
     } catch (err) {

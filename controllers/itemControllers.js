@@ -3,7 +3,9 @@ const Item = require("../models/item.js");
 module.exports.get_items = async (req, res) => {
     const session = await Item.startSession();
     const {
-        category
+        category,
+        minPrice, 
+        maxPrice
     } = req.query
 
   
@@ -13,6 +15,13 @@ module.exports.get_items = async (req, res) => {
         if(category){
             queries.push({
                 category : category
+            })
+        }
+
+        if(minPrice && maxPrice){
+
+            queries.push({
+                price: { $lte: maxPrice || 100000000, $gte: minPrice || 0 }
             })
         }
         
@@ -63,7 +72,7 @@ module.exports.get_item_by_id = (req, res) => {
             if(item){ 
                 res.json({
                     msg : "Successful", 
-                    item : item
+                    data : item
                 })
             }else{
                 res.json({

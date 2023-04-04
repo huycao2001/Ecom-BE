@@ -4,17 +4,40 @@ const Order = require("../models/order.js");
 //import config from "config";
 //const stripe = require('stripe')(config.get('StripeAPIKey'));
 
-module.exports.get_orders = async (req, res) => {
+// Get orders that belong to a user
+module.exports.get_user_orders = async (req, res) => {
     const userId = req.params.id;
-    Order.find({ userId })
+    try{
+        Order.find({ userId })
         .sort({ date: -1 })
-        .then((orders) => res.json(orders));
+        .then((orders) => res.json({
+            msg : "Successful", 
+            data : orders
+        }));
+    }catch(e){
+        return res.json({
+            msg : e.message
+        })
+    }
 };
+
+
+
+//Get all orders
 module.exports.get_all_orders = async (req, res) => {
     const userId = req.params.id;
-    Order.find()
+    try{
+        Order.find()
         .sort({ date: -1 })
-        .then((orders) => res.json(orders));
+        .then((orders) => res.json({
+            msg : "Successful", 
+            data : orders
+        }));
+    }catch(e){
+        return res.json({
+            msg : e.message
+        })
+    }
 };
 
 
@@ -48,7 +71,7 @@ module.exports.create_order = async (req, res) => {
 
 
 
-
+// Update order information
 module.exports.update_order = (req, res) => {
     Order.findByIdAndUpdate(req.params.id, req.body).then(function (item) {
         Order.findById(req.params.id).then(function (item) {
