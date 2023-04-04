@@ -38,7 +38,7 @@ module.exports.get_items = async (req, res) => {
         }
         
         res.json({
-          message: "Success",
+          message: "Successful",
           items: items,
         //   category : category
         });
@@ -62,7 +62,7 @@ module.exports.get_item_by_id = (req, res) => {
         Item.findOne({ _id : new ObjectId(item_id)}).then((item) => {
             if(item){ 
                 res.json({
-                    msg : "Success", 
+                    msg : "Successful", 
                     item : item
                 })
             }else{

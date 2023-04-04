@@ -161,7 +161,7 @@ module.exports.add_cart_item = async (req, res) => {
             cart.bill += quantity * price;
             cart = await cart.save();
             return res.json({
-                msg : "Success", 
+                msg : "Successful", 
                 cart : cart
             });
         } else {
@@ -173,7 +173,7 @@ module.exports.add_cart_item = async (req, res) => {
                 bill: quantity * price,
             });
             return res.json({
-                msg : "Success", 
+                msg : "Successful", 
                 cart : newCart
             });
         }
@@ -219,7 +219,7 @@ module.exports.update_cart_item = async (req, res) => {
             );
             cart = await cart.save();
             return res.json({
-                msg : "Success",
+                msg : "Successful",
                 newCart : cart
             })
         }
@@ -270,7 +270,7 @@ module.exports.delete_item = async (req, res) => {
       session.endSession();
   
       return res.json({
-        msg: 'Success',
+        msg: 'Successful',
         // deletedItem : productItem
       });
     } catch (err) {
@@ -306,7 +306,7 @@ module.exports.delete_item = async (req, res) => {
       session.endSession();
   
       return res.json({
-        msg: 'Success',
+        msg: 'Successful',
         // deletedItem : productItem
       });
     } catch (err) {
