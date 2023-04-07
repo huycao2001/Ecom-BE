@@ -134,26 +134,15 @@ module.exports.add_cart_item = async (req, res) => {
             let itemIndex = cart.items.findIndex(
                 (cartItem) => {
                     if(colorOption && storageOption){
-                        console.log("hmmmm1")
                         return cartItem.productId == productId && cartItem.colorOption === colorOption && cartItem.storageOption === storageOption
                     }
-
                     if(colorOption){
-                        console.log("hmmmm2")
-
                         return cartItem.productId == productId && cartItem.colorOption === colorOption 
                     }
 
                     if(storageOption){
-
-                        console.log("hmmm3")
-
                         return cartItem.productId == productId && cartItem.storageOption === storageOption       
                     }
-
-                    console.log("hmmmm4")
-
-
                     return cartItem.productId == productId
                 } 
             );
@@ -164,11 +153,6 @@ module.exports.add_cart_item = async (req, res) => {
                 // If same color and storage then increase the number
                 console.log("found the item right ? ")
                 let targetItem = cart.items[itemIndex];
-                // if(targetItem.colorOption && targetItem.storageOption && targetItem.colorOption === colorOption && targetItem.storageOption === storageOption){
-                //     cart.items[itemIndex].quantity += quantity
-                // }else{
-                //     cart.items.push({ image, productId, name,colorOption, storageOption,  quantity, price })
-                // }
                 if(colorOption && storageOption){
                     if(targetItem.colorOption === colorOption && targetItem.storageOption === storageOption){
                         cart.items[itemIndex].quantity += quantity
@@ -187,7 +171,8 @@ module.exports.add_cart_item = async (req, res) => {
                     }              
                 }
                 else{
-                    cart.items.push({ image, productId, name,colorOption, storageOption,  quantity, price })
+                    cart.items[itemIndex].quantity += quantity
+
                 }
                 
             } else {
