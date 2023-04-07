@@ -151,7 +151,6 @@ module.exports.add_cart_item = async (req, res) => {
             // If the product exists
             if (itemIndex > -1) {
                 // If same color and storage then increase the number
-                console.log("found the item right ? ")
                 let targetItem = cart.items[itemIndex];
                 if(colorOption && storageOption){
                     if(targetItem.colorOption === colorOption && targetItem.storageOption === storageOption){
