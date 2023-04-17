@@ -6,7 +6,7 @@ const Order = require("../models/order.js");
 
 // Get orders that belong to a user
 module.exports.get_user_orders = async (req, res) => {
-    const userId = req.params.id;
+    const userId = req.params.userId;
     try{
         Order.find({ userId })
         .sort({ date: -1 })

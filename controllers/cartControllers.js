@@ -12,6 +12,11 @@ module.exports.get_cart_items = async (req, res) => {
                 msg : "Successful", 
                 data : cart
             })
+        }else{
+            return res.json({
+                msg : "Successful", 
+                data : []
+            })
         }
         throw new Error("Cart not found")
     } catch (err) {

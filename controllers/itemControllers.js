@@ -5,7 +5,8 @@ module.exports.get_items = async (req, res) => {
     const {
         category,
         minPrice, 
-        maxPrice
+        maxPrice,
+        searchKey
     } = req.query
 
   
@@ -23,6 +24,12 @@ module.exports.get_items = async (req, res) => {
             queries.push({
                 price: { $lte: maxPrice || 100000000, $gte: minPrice || 0 }
             })
+        }
+
+        if(searchKey){
+            queries.push({ name: {
+                $regex: searchKey, $options: 'i' 
+            } })
         }
         
         var items
