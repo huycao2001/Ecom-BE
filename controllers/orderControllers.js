@@ -6,6 +6,9 @@ const Cart = require("../models/cart.js");
 //import config from "config";
 //const stripe = require('stripe')(config.get('StripeAPIKey'));
 
+const mongoose = require('mongoose');
+
+
 var request = require('request');
 
 const crypto = require('crypto');
@@ -58,8 +61,8 @@ module.exports.create_order = async (req, res) => {
     //     userId, items, shippingInfo, bill ,dateAdded, status
     // })
 
-    // const session = await mongoose.startSession();
-    // session.startTransaction();
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
     try{
         const newOrder = new Order(req.body);
@@ -68,15 +71,17 @@ module.exports.create_order = async (req, res) => {
 
 
         // TODO : Delete cart if needed
-        // const cart = await Cart.findOne({ userId });
+        const cart = await Cart.findOne({ userId });
 
-        // if(!cart){
-        //     throw new Error('The user does not have any cart');
-        // }
+        if(cart){
+            // throw new Error('The user does not have any cart');
+            await cart.remove();
 
-        // await cart.remove();
-        // await session.commitTransaction();
-        // session.endSession();
+        }
+
+        
+        await session.commitTransaction();
+        session.endSession();
 
         return res.json({
             msg: 'Successful',
@@ -86,8 +91,8 @@ module.exports.create_order = async (req, res) => {
 
         
     }catch(e){
-        // await session.abortTransaction();
-        // session.endSession();
+        await session.abortTransaction();
+        session.endSession();
         return res.json({
             msg : e.message
         })
