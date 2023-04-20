@@ -67,6 +67,11 @@ module.exports.create_order = async (req, res) => {
     session.startTransaction();
 
     try{
+
+        if(!shippingInfo){
+            throw new Error('Shipping info is required!');
+        }
+
         const newOrder = new Order(req.body);
         
         newOrder.save();
