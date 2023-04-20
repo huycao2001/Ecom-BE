@@ -58,25 +58,25 @@ module.exports.create_order = async (req, res) => {
     //     userId, items, shippingInfo, bill ,dateAdded, status
     // })
 
-    const session = await mongoose.startSession();
-    session.startTransaction();
+    // const session = await mongoose.startSession();
+    // session.startTransaction();
 
     try{
         const newOrder = new Order(req.body);
         
-        await newOrder.save();
+        newOrder.save();
 
 
         // TODO : Delete cart if needed
-        const cart = await Cart.findOne({ userId });
+        // const cart = await Cart.findOne({ userId });
 
-        if(!cart){
-            throw new Error('The user does not have any cart');
-        }
+        // if(!cart){
+        //     throw new Error('The user does not have any cart');
+        // }
 
-        await cart.remove();
-        await session.commitTransaction();
-        session.endSession();
+        // await cart.remove();
+        // await session.commitTransaction();
+        // session.endSession();
 
         return res.json({
             msg: 'Successful',
@@ -86,8 +86,8 @@ module.exports.create_order = async (req, res) => {
 
         
     }catch(e){
-        await session.abortTransaction();
-        session.endSession();
+        // await session.abortTransaction();
+        // session.endSession();
         return res.json({
             msg : e.message
         })
