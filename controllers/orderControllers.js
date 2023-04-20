@@ -1,6 +1,8 @@
 const { json } = require("express");
 const Order = require("../models/order.js");
 const Cart = require("../models/cart.js");
+
+const orderid = require('order-id')('key');
 //import Cart from "../models/Cart";
 //import User from "../models/User";
 //import config from "config";
@@ -116,19 +118,20 @@ module.exports.update_order = (req, res) => {
 
 
 module.exports.momoCheckout = (req, res) => {
-
+    
     const partnerCode = "MOMOBKUN20180529"
     const accessKey = 'klm05TvNBzhg7h7j'
     const secretKey = "at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa"
-    const amount = "10000";
+    const amount = req.body.amount;
     const extraData = "merchantName=MoMo Partner"
 
     // console.log(redirectHost,ipnHost)
     const redirectUrl = "localhost:3000";
     const ipnUrl = "localhost:3000";
 
-    const orderId = "1681813129";
-    const orderInfo = "momo payment"
+    // const orderId = "1681813129";
+    const orderId = orderid.generate();
+    const orderInfo =  req.body.orderInfo;
     // const requestId = partnerCode + new Date().getTime();
     const requestId = "1681813126";
 
