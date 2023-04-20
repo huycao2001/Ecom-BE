@@ -1,5 +1,6 @@
 const { json } = require("express");
 const Order = require("../models/order.js");
+const Cart = require("../models/cart.js");
 //import Cart from "../models/Cart";
 //import User from "../models/User";
 //import config from "config";
@@ -19,6 +20,9 @@ module.exports.get_user_orders = async (req, res) => {
             msg : "Successful", 
             data : orders
         }));
+
+
+
     }catch(e){
         return res.json({
             msg : e.message
@@ -54,16 +58,36 @@ module.exports.create_order = async (req, res) => {
     //     userId, items, shippingInfo, bill ,dateAdded, status
     // })
 
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
     try{
         const newOrder = new Order(req.body);
-        newOrder.save().then((order) => res.json({
-            msg : "Successful", 
-            data : newOrder
-        }));
+        
+        await newOrder.save();
 
 
         // TODO : Delete cart if needed
+        const cart = await Cart.findOne({ userId });
+
+        if(!cart){
+            throw new Error('The user does not have any cart');
+        }
+
+        await cart.remove();
+        await session.commitTransaction();
+        session.endSession();
+
+        return res.json({
+            msg: 'Successful',
+            // deletedItem : productItem
+          });
+
+
+        
     }catch(e){
+        await session.abortTransaction();
+        session.endSession();
         return res.json({
             msg : e.message
         })
