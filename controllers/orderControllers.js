@@ -122,6 +122,38 @@ module.exports.update_order = (req, res) => {
 };
 
 
+
+module.exports.accept_order = (req, res) => {
+    const {
+        userId, 
+        orderId 
+    } = req.body;
+    try{
+        var ObjectId = require('mongoose').Types.ObjectId;
+
+        Order.findOne({ _id : new ObjectId(orderId)}).then((item) => {
+            if(item){ 
+                item.status = "accepted"
+                item.save()
+                return res.json({
+                    msg : "Successful", 
+                    data : item
+                })
+            }else{
+                res.json({
+                    msg : "No item found"
+                })
+            }
+    
+    
+        });
+    }catch(e){
+
+    }
+
+};
+
+
 module.exports.momoCheckout = (req, res) => {
     
     const partnerCode = "MOMOBKUN20180529"
@@ -194,37 +226,3 @@ module.exports.momoCheckout = (req, res) => {
 };
 
 
-/*module.exports.checkout = async (req,res) => {
-    try{
-        const userId = req.params.id;
-        const {source} = req.body;
-        let cart = await Cart.findOne({userId});
-        let user = await User.findOne({_id: userId});
-        const email = user.email;
-        if(cart){
-            const charge = await stripe.charges.create({
-                amount: cart.bill,
-                currency: 'inr',
-                source: source,
-                receipt_email: email
-            })
-            if(!charge) throw Error('Payment failed');
-            if(charge){
-                const order = await Order.create({
-                    userId,
-                    items: cart.items,
-                    bill: cart.bill
-                });
-                const data = await Cart.findByIdAndDelete({_id:cart.id});
-                return res.status(201).send(order);
-            }
-        }
-        else{
-            res.status(500).send("You do not have items in cart");
-        }
-    }
-    catch(err){
-        console.log(err);
-        res.status(500).send("Something went wrong");
-    }
-}*/

@@ -8,6 +8,8 @@ router.get("/orders", orderController.get_all_orders);
 router.post("/order", orderController.create_order);
 
 
+router.put("/acceptOrder", orderController.accept_order);
+
 router.post("/momoCheckout", orderController.momoCheckout);
 
 //router.post("/order/:id", orderController.checkout);
